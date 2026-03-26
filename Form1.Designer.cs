@@ -300,16 +300,22 @@
             InputAndResultTxt.Font = new Font("서울남산체 L", 24F, FontStyle.Regular, GraphicsUnit.Point, 129);
             InputAndResultTxt.Location = new Point(31, 113);
             InputAndResultTxt.Name = "InputAndResultTxt";
+            InputAndResultTxt.ReadOnly = true;
             InputAndResultTxt.Size = new Size(372, 45);
             InputAndResultTxt.TabIndex = 14;
+            InputAndResultTxt.TabStop = false;
+            InputAndResultTxt.TextAlign = HorizontalAlignment.Right;
             // 
             // HistoryTxt
             // 
             HistoryTxt.Font = new Font("맑은 고딕", 12F, FontStyle.Regular, GraphicsUnit.Point, 129);
             HistoryTxt.Location = new Point(104, 70);
             HistoryTxt.Name = "HistoryTxt";
+            HistoryTxt.ReadOnly = true;
             HistoryTxt.Size = new Size(299, 29);
             HistoryTxt.TabIndex = 15;
+            HistoryTxt.TabStop = false;
+            HistoryTxt.TextAlign = HorizontalAlignment.Right;
             // 
             // Form1
             // 
