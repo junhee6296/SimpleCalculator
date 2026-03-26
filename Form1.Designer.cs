@@ -328,10 +328,10 @@
             // HistoryTxt
             // 
             HistoryTxt.Font = new Font("맑은 고딕", 12F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            HistoryTxt.Location = new Point(104, 70);
+            HistoryTxt.Location = new Point(31, 70);
             HistoryTxt.Name = "HistoryTxt";
             HistoryTxt.ReadOnly = true;
-            HistoryTxt.Size = new Size(299, 29);
+            HistoryTxt.Size = new Size(372, 29);
             HistoryTxt.TabIndex = 15;
             HistoryTxt.TabStop = false;
             HistoryTxt.TextAlign = HorizontalAlignment.Right;
@@ -340,6 +340,7 @@
             // 
             HistoryListBox.Font = new Font("서울남산 장체 L", 15.7499981F, FontStyle.Regular, GraphicsUnit.Point, 129);
             HistoryListBox.FormattingEnabled = true;
+            HistoryListBox.HorizontalScrollbar = true;
             HistoryListBox.Location = new Point(425, 9);
             HistoryListBox.Name = "HistoryListBox";
             HistoryListBox.Size = new Size(298, 532);
@@ -375,8 +376,10 @@
             Controls.Add(ButtonNegate);
             Controls.Add(NumberTwo);
             Controls.Add(NumberOne);
+            KeyPreview = true;
             Name = "Form1";
             Text = "The Calculator V1.0";
+            KeyDown += KeyDownCalc;
             ResumeLayout(false);
             PerformLayout();
         }

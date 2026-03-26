@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace SimpleCalculator
@@ -6,10 +7,12 @@ namespace SimpleCalculator
     public partial class Form1 : Form
     {
         // 계산 연산 변수
-        double num1 = 0;
-        double num2 = 0;
+        decimal num1 = 0;
+        decimal num2 = 0;
         // 연산자 체킹
         string currentOperator = "";
+        //실제 계산(e단위아닌)
+        string rawInput = "";
 
         // 연산자 누른 직후 새 입력을 받을지 결정하는 플래그
         bool isNewInput = true;
@@ -22,102 +25,121 @@ namespace SimpleCalculator
             InitializeComponent();
         }
 
+        // 객체 클래스도 decimal로 자료형 변경
         public class CalculationHistory
         {
-            public double Num1 { get; set; }
-            public double Num2 { get; set; }
+            public decimal Num1 { get; set; }
+            public decimal Num2 { get; set; }
             public string Operator { get; set; }
-            public double Result { get; set; }
-            public string Expression { get; set; } // "5 + 2 =" 형태의 수식
+            public decimal Result { get; set; }
+            public string Expression { get; set; }
 
-            // ListBox에 항목이 추가될 때 화면에 보여질 문자열을 정의합니다.
             public override string ToString()
             {
-                // 윈도우 계산기처럼 위에는 수식, 아래는 결과가 나오게 줄바꿈(\r\n) 적용
-                return Expression + "\r\n" + Result.ToString("g10");
+                return Expression + " " + Result.ToString();
             }
+        }
+        private void KeyDownCalc(object sender, KeyEventArgs e)
+        {
+            // 숫자 키 (상단 숫자키 & 우측 숫자 키패드)
+            if (e.KeyCode == Keys.D0 || e.KeyCode == Keys.NumPad0) NumberZero.PerformClick();
+            else if (e.KeyCode == Keys.D1 || e.KeyCode == Keys.NumPad1) NumberOne.PerformClick();
+            else if (e.KeyCode == Keys.D2 || e.KeyCode == Keys.NumPad2) NumberTwo.PerformClick();
+            else if (e.KeyCode == Keys.D3 || e.KeyCode == Keys.NumPad3) NumberThree.PerformClick();
+            else if (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4) NumberFour.PerformClick();
+            else if (e.KeyCode == Keys.D5 || e.KeyCode == Keys.NumPad5) NumberFive.PerformClick();
+            else if (e.KeyCode == Keys.D6 || e.KeyCode == Keys.NumPad6) NumberSix.PerformClick();
+            else if (e.KeyCode == Keys.D7 || e.KeyCode == Keys.NumPad7) NumberSeven.PerformClick();
+            else if (e.KeyCode == Keys.D8 || e.KeyCode == Keys.NumPad8) NumberEight.PerformClick();
+            else if (e.KeyCode == Keys.D9 || e.KeyCode == Keys.NumPad9) NumberNine.PerformClick();
+
+            // 연산자 및 특수 키 (Shift 조합 포함)
+            else if (e.KeyCode == Keys.Add || (e.Shift && e.KeyCode == Keys.Oemplus)) ButtonPlus.PerformClick();
+            else if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus) ButtonMinus.PerformClick();
+            else if (e.KeyCode == Keys.Multiply || (e.Shift && e.KeyCode == Keys.D8)) ButtonTimes.PerformClick();
+            else if (e.KeyCode == Keys.Divide || e.KeyCode == Keys.OemQuestion) ButtonObelus.PerformClick();
+            else if (e.KeyCode == Keys.Enter || (!e.Shift && e.KeyCode == Keys.Oemplus)) ButtonResult.PerformClick();
+            else if (e.KeyCode == Keys.Back) ButtonDel.PerformClick();
+            else if (e.KeyCode == Keys.Escape) ButtonClearAll.PerformClick();
+            else if (e.KeyCode == Keys.Decimal || e.KeyCode == Keys.OemPeriod) ButtonComma.PerformClick();
         }
 
         // 숫자 버튼 클릭 이벤트 (0~9)
         private void NumberButton_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-
-            // '=' 누른 직후 연산자 없이 바로 숫자를 누르면 '완전 초기화' 후 새 숫자 입력
             if (isResultDisplayed)
             {
                 HistoryTxt.Clear();
-                InputAndResultTxt.Clear();
-                num1 = 0;
-                num2 = 0;
-                currentOperator = "";
-                isResultDisplayed = false; // 초기화했으므로 플래그 해제
-                isNewInput = true;
+                rawInput = ""; // ★ 화면 대신 내부 데이터 비우기
+                num1 = 0; num2 = 0; currentOperator = "";
+                isResultDisplayed = false; isNewInput = true;
             }
-
-            // 연산자를 눌렀거나 방금 초기화되어서 화면을 비워야 하는 경우
             if (isNewInput)
             {
-                InputAndResultTxt.Text = "";
+                rawInput = ""; // ★ 내부 데이터 비우기
                 isNewInput = false;
             }
 
-            // 클릭된 버튼의 숫자를 이어붙임 (MaxLength 속성 덕분에 15자리 이상은 안 써짐)
-            InputAndResultTxt.Text += btn.Text;
+            rawInput += btn.Text; // ★ 내부 데이터에 숫자 추가
+            InputAndResultTxt.Text = rawInput; // 화면에는 추가된 결과를 그대로 표시
         }
 
         // 더하기(+) 버튼 클릭 이벤트
         private void ButtonPlus_Click(object sender, EventArgs e)
         {
-            if (InputAndResultTxt.Text != "")
+            if (rawInput != "") // ★ 텍스트박스 대신 내부 데이터 확인
             {
-                // int.Parse 대신 double.Parse 사용
-                num1 = double.Parse(InputAndResultTxt.Text);
+                num1 = decimal.Parse(rawInput);
                 currentOperator = "+";
 
-                HistoryTxt.Text = num1.ToString() + " + ";
-
-                isNewInput = true;
-
-                // ★ 연산자를 눌렀으므로, 계산을 이어나가는 상태임 (초기화 방지)
-                isResultDisplayed = false;
+                // 위쪽 창에 표시할 때만 "g10" 적용
+                HistoryTxt.Text = num1.ToString("g10") + " + ";
+                isNewInput = true; isResultDisplayed = false;
             }
         }
 
-        // 빼기(−) 버튼 클릭 이벤트
+        // 빼기(−) 버튼 
         private void ButtonMinus_Click(object sender, EventArgs e)
         {
-            if (InputAndResultTxt.Text != "")
+            if (rawInput != "") // 화면 텍스트가 아닌 실제 데이터를 확인
             {
-                num1 = double.Parse(InputAndResultTxt.Text);
-                currentOperator = "−"; // 특수기호 주의
-                HistoryTxt.Text = num1.ToString() + " − ";
+                num1 = decimal.Parse(rawInput);
+                currentOperator = "−";
+
+                // 화면에 보여줄 때만 "g10" 포맷 적용
+                HistoryTxt.Text = num1.ToString("g10") + " − ";
+
                 isNewInput = true;
                 isResultDisplayed = false;
             }
         }
 
-        // 곱하기(×) 버튼 클릭 이벤트
+        // 곱하기(×) 버튼
         private void ButtonTimes_Click(object sender, EventArgs e)
         {
-            if (InputAndResultTxt.Text != "")
+            if (rawInput != "")
             {
-                num1 = double.Parse(InputAndResultTxt.Text);
+                num1 = decimal.Parse(rawInput);
                 currentOperator = "×";
-                HistoryTxt.Text = num1.ToString() + " × ";
+
+                HistoryTxt.Text = num1.ToString("g10") + " × ";
+
                 isNewInput = true;
                 isResultDisplayed = false;
             }
         }
 
-        // 나누기(÷) 버튼 클릭 이벤트
+        // 나누기(÷) 버튼
         private void ButtonObelus_Click(object sender, EventArgs e)
         {
-            if (InputAndResultTxt.Text != "")
+            if (rawInput != "")
             {
-                num1 = double.Parse(InputAndResultTxt.Text);
+                num1 = decimal.Parse(rawInput);
                 currentOperator = "÷";
-                HistoryTxt.Text = num1.ToString() + " ÷ ";
+
+                HistoryTxt.Text = num1.ToString("g10") + " ÷ ";
+
                 isNewInput = true;
                 isResultDisplayed = false;
             }
@@ -168,14 +190,13 @@ namespace SimpleCalculator
         // +/- (부호 반전) 버튼 클릭 이벤트
         private void ButtonNegate_Click(object sender, EventArgs e)
         {
-            // 입력창이 비어있지 않고, "0"이 아닐 때만 작동
-            if (InputAndResultTxt.Text != "" && InputAndResultTxt.Text != "0")
+            if (rawInput != "" && rawInput != "0")
             {
-                double currentNum = double.Parse(InputAndResultTxt.Text);
-                currentNum = currentNum * -1; // -1을 곱해 부호 반전
+                decimal currentNum = decimal.Parse(rawInput); // ★ 에러 발생 안 함
+                currentNum = currentNum * -1;
 
-                // 다시 문자열로 변환하여 창에 띄움
-                InputAndResultTxt.Text = currentNum.ToString("g10");
+                rawInput = currentNum.ToString(); // ★ 내부 데이터 업데이트 (포맷 없음)
+                InputAndResultTxt.Text = currentNum.ToString("g10"); // 화면에만 포맷 적용
             }
         }
 
@@ -183,7 +204,7 @@ namespace SimpleCalculator
         private void ButtonComma_Click(object sender, EventArgs e)
         {
             // 1. 방금 계산이 끝났거나 새로 입력해야 하는 상태일 때 누르면 "0."으로 시작
-            if (isResultDisplayed || isNewInput || InputAndResultTxt.Text == "")
+            if (isResultDisplayed || isNewInput || rawInput == "")
             {
                 if (isResultDisplayed)
                 {
@@ -194,88 +215,97 @@ namespace SimpleCalculator
                     isResultDisplayed = false;
                 }
 
-                InputAndResultTxt.Text = "0.";
+                // ★ 핵심: 내부 데이터인 rawInput에 먼저 저장!
+                rawInput = "0.";
+                InputAndResultTxt.Text = rawInput;
                 isNewInput = false;
             }
-            // 2. 입력 중인 숫자에 소수점이 아직 없는 경우에만 소수점 추가 (예: "1.2.3" 방지)
-            else if (!InputAndResultTxt.Text.Contains("."))
+            // 2. 입력 중인 숫자에 소수점이 아직 없는 경우에만 추가
+            else if (!rawInput.Contains("."))
             {
-                InputAndResultTxt.Text += ".";
+                // ★ 핵심: 내부 데이터인 rawInput에 소수점 추가!
+                rawInput += ".";
+                InputAndResultTxt.Text = rawInput; // 화면 갱신
             }
         }
 
         // 결과(=) 버튼 클릭 이벤트
         private void ButtonResult_Click(object sender, EventArgs e)
         {
-            if (InputAndResultTxt.Text != "" && currentOperator != "")
+            if (rawInput != "" && currentOperator != "")
             {
-                num2 = double.Parse(InputAndResultTxt.Text);
-                double result = 0;
-
-                // 선택된 연산자에 따라 사칙연산 수행
-                if (currentOperator == "+") result = num1 + num2;
-                else if (currentOperator == "−") result = num1 - num2;
-                else if (currentOperator == "×") result = num1 * num2;
-                else if (currentOperator == "÷")
+                try
                 {
-                    // 0으로 나누기 방어 로직
-                    if (num2 == 0)
+                    // ★ 앞서 추가했던 NumberStyles.Float 유지
+                    num2 = decimal.Parse(rawInput, System.Globalization.NumberStyles.Float);
+                    decimal result = 0;
+
+                    if (currentOperator == "+") result = num1 + num2;
+                    else if (currentOperator == "−") result = num1 - num2;
+                    else if (currentOperator == "×") result = num1 * num2;
+                    else if (currentOperator == "÷")
                     {
-                        InputAndResultTxt.Text = "0으로 나눌 수 없습니다";
-                        HistoryTxt.Text = num1.ToString() + " ÷ 0 =";
-                        isNewInput = true;
-                        isResultDisplayed = true;
-                        currentOperator = "";
-                        return; // 여기서 함수를 종료시켜버림
+                        if (num2 == 0)
+                        {
+                            InputAndResultTxt.Text = "0으로 나눌 수 없습니다";
+                            HistoryTxt.Text = num1.ToString("g10") + " ÷ 0 =";
+                            isNewInput = true; isResultDisplayed = true; currentOperator = ""; rawInput = "";
+                            return;
+                        }
+                        result = num1 / num2;
                     }
-                    result = num1 / num2;
+
+                    string currentExpression = num1.ToString("g10") + " " + currentOperator + " " + num2.ToString("g10") + " = ";
+                    HistoryTxt.Text = currentExpression;
+
+                    rawInput = result.ToString();
+                    InputAndResultTxt.Text = result.ToString("g10");
+
+                    CalculationHistory historyItem = new CalculationHistory
+                    {
+                        Num1 = num1,
+                        Num2 = num2,
+                        Operator = currentOperator,
+                        Result = result,
+                        Expression = currentExpression
+                    };
+                    HistoryListBox.Items.Add(historyItem);
+
+                    isNewInput = true;
+                    isResultDisplayed = true;
+                    currentOperator = "";
                 }
-
-                // 히스토리 창에 전체 수식 표시
-                HistoryTxt.Text = num1.ToString() + " " + currentOperator + " " + num2.ToString() + " = ";
-
-                // 결과를 메인 창에 표시 (최대 10자리 & e 표기법 적용)
-                InputAndResultTxt.Text = result.ToString("g10");
-
-                // 1. 문자열로 화면에 표시 (기존 코드)
-                string currentExpression = num1.ToString() + " " + currentOperator + " " + num2.ToString() + " = ";
-                HistoryTxt.Text = currentExpression;
-                InputAndResultTxt.Text = result.ToString("g10");
-
-                // ★ 2. 방금 완료된 계산의 모든 정보를 객체에 담아 ListBox에 보관!
-                CalculationHistory historyItem = new CalculationHistory
+                catch (OverflowException)
                 {
-                    Num1 = num1,
-                    Num2 = num2,
-                    Operator = currentOperator,
-                    Result = result,
-                    Expression = currentExpression
-                };
-
-                HistoryListBox.Items.Add(historyItem); //
-
-                isNewInput = true;
-                isResultDisplayed = true;
-                currentOperator = "";
+                    // ★ 숫자가 너무 커서 한계를 초과했을 때 프로그램이 튕기는 것을 막아줍니다!
+                    InputAndResultTxt.Text = "숫자 범위 초과";
+                    HistoryTxt.Text = "";
+                    rawInput = "";
+                    num1 = 0; num2 = 0;
+                    isNewInput = true;
+                    isResultDisplayed = true;
+                    currentOperator = "";
+                }
             }
         }
 
         private void HistoryListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // 클릭된 항목이 없다면 무시
+            // 클릭된 항목이 없으면 작동하지 않음
             if (HistoryListBox.SelectedItem == null) return;
 
-            // 선택된 항목을 CalculationHistory 객체로 다시 캐스팅하여 가져옵니다.
+            // 선택된 항목을 CalculationHistory 객체로 변환
             CalculationHistory selectedHistory = (CalculationHistory)HistoryListBox.SelectedItem;
 
-            // 데이터 롤백해서 num1 환경변수에 집어넣기
-            num1 = selectedHistory.Result; 
+            // ★ 과거 데이터로 내부 상태 복원
+            num1 = selectedHistory.Result;
+            rawInput = selectedHistory.Result.ToString(); // 내부 데이터도 롤백
 
-            // 화면 표시 롤백
+            // UI 화면 복원 (수식은 그대로, 결과값은 다시 g10을 씌워서 예쁘게)
             HistoryTxt.Text = selectedHistory.Expression;
             InputAndResultTxt.Text = selectedHistory.Result.ToString("g10");
 
-            // 상태 플래그 초기화 (방금 계산이 끝난 직후의 상태로 세팅)
+            // 방금 '=' 버튼을 눌렀을 때와 똑같은 상태로 플래그 세팅
             isResultDisplayed = true;
             isNewInput = true;
             currentOperator = "";
