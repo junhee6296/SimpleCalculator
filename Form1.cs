@@ -107,6 +107,87 @@ namespace SimpleCalculator
             }
         }
 
+        // C (Clear All) 버튼 클릭 이벤트
+        private void ButtonClearAll_Click(object sender, EventArgs e)
+        {
+            // 계산기의 모든 상태와 텍스트를 처음 상태로 되돌림
+            num1 = 0;
+            num2 = 0;
+            currentOperator = "";
+            InputAndResultTxt.Text = "";
+            HistoryTxt.Text = "";
+
+            isNewInput = true;
+            isResultDisplayed = false;
+        }
+
+        // CE (Clear Entry) 버튼 클릭 이벤트
+        private void ButtonClearEntry_Click(object sender, EventArgs e)
+        {
+            // 계산이 완료된 직후라면 C버튼처럼 전체를 초기화
+            if (isResultDisplayed)
+            {
+                ButtonClearAll_Click(sender, e);
+                return;
+            }
+
+            // 그렇지 않다면 현재 입력 중이던 피연산자 화면만 지움
+            InputAndResultTxt.Text = "";
+            isNewInput = true;
+        }
+
+        // del (백스페이스) 버튼 클릭 이벤트
+        private void ButtonDel_Click(object sender, EventArgs e)
+        {
+            // 화면이 비어있거나, 계산 결과가 띄워져 있는 상태라면 지우기를 무시
+            if (InputAndResultTxt.Text == "" || isResultDisplayed) return;
+
+            // 현재 텍스트의 길이가 1 이상일 때, 맨 마지막 글자 하나를 잘라냄
+            if (InputAndResultTxt.Text.Length > 0)
+            {
+                InputAndResultTxt.Text = InputAndResultTxt.Text.Substring(0, InputAndResultTxt.Text.Length - 1);
+            }
+        }
+
+        // +/- (부호 반전) 버튼 클릭 이벤트
+        private void ButtonNegate_Click(object sender, EventArgs e)
+        {
+            // 입력창이 비어있지 않고, "0"이 아닐 때만 작동
+            if (InputAndResultTxt.Text != "" && InputAndResultTxt.Text != "0")
+            {
+                double currentNum = double.Parse(InputAndResultTxt.Text);
+                currentNum = currentNum * -1; // -1을 곱해 부호 반전
+
+                // 다시 문자열로 변환하여 창에 띄움
+                InputAndResultTxt.Text = currentNum.ToString("g10");
+            }
+        }
+
+        // . (소수점) 버튼 클릭 이벤트
+        private void ButtonComma_Click(object sender, EventArgs e)
+        {
+            // 1. 방금 계산이 끝났거나 새로 입력해야 하는 상태일 때 누르면 "0."으로 시작
+            if (isResultDisplayed || isNewInput || InputAndResultTxt.Text == "")
+            {
+                if (isResultDisplayed)
+                {
+                    HistoryTxt.Clear();
+                    num1 = 0;
+                    num2 = 0;
+                    currentOperator = "";
+                    isResultDisplayed = false;
+                }
+
+                InputAndResultTxt.Text = "0.";
+                isNewInput = false;
+            }
+            // 2. 입력 중인 숫자에 소수점이 아직 없는 경우에만 소수점 추가 (예: "1.2.3" 방지)
+            else if (!InputAndResultTxt.Text.Contains("."))
+            {
+                InputAndResultTxt.Text += ".";
+            }
+        }
+
         // 결과(=) 버튼 클릭 이벤트
         private void ButtonResult_Click(object sender, EventArgs e)
         {

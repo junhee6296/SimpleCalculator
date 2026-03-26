@@ -207,6 +207,7 @@
             ButtonNegate.TabIndex = 0;
             ButtonNegate.Text = "+ / −";
             ButtonNegate.UseVisualStyleBackColor = true;
+            ButtonNegate.Click += ButtonNegate_Click;
             // 
             // NumberZero
             // 
@@ -230,6 +231,7 @@
             ButtonComma.TabIndex = 2;
             ButtonComma.Text = ".";
             ButtonComma.UseVisualStyleBackColor = true;
+            ButtonComma.Click += ButtonComma_Click;
             // 
             // ButtonResult
             // 
@@ -265,6 +267,7 @@
             ButtonDel.TabIndex = 12;
             ButtonDel.Text = "del";
             ButtonDel.UseVisualStyleBackColor = true;
+            ButtonDel.Click += ButtonDel_Click;
             // 
             // ButtonClearAll
             // 
@@ -276,6 +279,7 @@
             ButtonClearAll.TabIndex = 10;
             ButtonClearAll.Text = "C";
             ButtonClearAll.UseVisualStyleBackColor = true;
+            ButtonClearAll.Click += ButtonClearAll_Click;
             // 
             // ButtonClearEntry
             // 
@@ -287,6 +291,7 @@
             ButtonClearEntry.TabIndex = 9;
             ButtonClearEntry.Text = "CE";
             ButtonClearEntry.UseVisualStyleBackColor = true;
+            ButtonClearEntry.Click += ButtonClearEntry_Click;
             // 
             // HeadLabel
             // 
