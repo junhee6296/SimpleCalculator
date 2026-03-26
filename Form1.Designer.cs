@@ -52,6 +52,9 @@
             InputAndResultTxt = new TextBox();
             HistoryTxt = new TextBox();
             HistoryListBox = new ListBox();
+            ButtonMode = new Button();
+            ButtonOpenParen = new Button();
+            ButtonCloseParen = new Button();
             SuspendLayout();
             // 
             // NumberOne
@@ -308,16 +311,16 @@
             // 
             HeadLabel.AutoSize = true;
             HeadLabel.Font = new Font("서울한강 장체 L", 24F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            HeadLabel.Location = new Point(93, 9);
+            HeadLabel.Location = new Point(85, 9);
             HeadLabel.Name = "HeadLabel";
-            HeadLabel.Size = new Size(239, 38);
+            HeadLabel.Size = new Size(274, 38);
             HeadLabel.TabIndex = 13;
-            HeadLabel.Text = "Simple Calculator";
+            HeadLabel.Text = "UnSimple Calculator";
             // 
             // InputAndResultTxt
             // 
             InputAndResultTxt.Font = new Font("서울남산체 L", 24F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            InputAndResultTxt.Location = new Point(31, 113);
+            InputAndResultTxt.Location = new Point(31, 85);
             InputAndResultTxt.Name = "InputAndResultTxt";
             InputAndResultTxt.ReadOnly = true;
             InputAndResultTxt.Size = new Size(372, 45);
@@ -328,7 +331,7 @@
             // HistoryTxt
             // 
             HistoryTxt.Font = new Font("맑은 고딕", 12F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            HistoryTxt.Location = new Point(31, 70);
+            HistoryTxt.Location = new Point(31, 50);
             HistoryTxt.Name = "HistoryTxt";
             HistoryTxt.ReadOnly = true;
             HistoryTxt.Size = new Size(372, 29);
@@ -347,11 +350,50 @@
             HistoryListBox.TabIndex = 16;
             HistoryListBox.SelectedIndexChanged += HistoryListBox_SelectedIndexChanged;
             // 
+            // ButtonMode
+            // 
+            ButtonMode.Font = new Font("서울남산체 L", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            ButtonMode.Location = new Point(195, 141);
+            ButtonMode.Name = "ButtonMode";
+            ButtonMode.Size = new Size(96, 41);
+            ButtonMode.TabIndex = 17;
+            ButtonMode.Text = "표준 모드";
+            ButtonMode.UseVisualStyleBackColor = true;
+            ButtonMode.Click += ButtonMode_Click;
+            // 
+            // ButtonOpenParen
+            // 
+            ButtonOpenParen.BackColor = SystemColors.HotTrack;
+            ButtonOpenParen.Font = new Font("Arial Narrow", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            ButtonOpenParen.ForeColor = SystemColors.ControlText;
+            ButtonOpenParen.Location = new Point(297, 139);
+            ButtonOpenParen.Name = "ButtonOpenParen";
+            ButtonOpenParen.Size = new Size(57, 44);
+            ButtonOpenParen.TabIndex = 2;
+            ButtonOpenParen.Text = "(";
+            ButtonOpenParen.UseVisualStyleBackColor = false;
+            ButtonOpenParen.Click += ButtonOpenParen_Click;
+            // 
+            // ButtonCloseParen
+            // 
+            ButtonCloseParen.BackColor = SystemColors.HotTrack;
+            ButtonCloseParen.Font = new Font("Arial Narrow", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            ButtonCloseParen.ForeColor = SystemColors.ControlText;
+            ButtonCloseParen.Location = new Point(360, 139);
+            ButtonCloseParen.Name = "ButtonCloseParen";
+            ButtonCloseParen.Size = new Size(57, 44);
+            ButtonCloseParen.TabIndex = 18;
+            ButtonCloseParen.Text = ")";
+            ButtonCloseParen.UseVisualStyleBackColor = false;
+            ButtonCloseParen.Click += ButtonCloseParen_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(735, 548);
+            Controls.Add(ButtonCloseParen);
+            Controls.Add(ButtonMode);
             Controls.Add(HistoryListBox);
             Controls.Add(HistoryTxt);
             Controls.Add(InputAndResultTxt);
@@ -369,6 +411,7 @@
             Controls.Add(NumberFive);
             Controls.Add(ButtonResult);
             Controls.Add(ButtonPlus);
+            Controls.Add(ButtonOpenParen);
             Controls.Add(ButtonComma);
             Controls.Add(NumberFour);
             Controls.Add(NumberZero);
@@ -378,7 +421,7 @@
             Controls.Add(NumberOne);
             KeyPreview = true;
             Name = "Form1";
-            Text = "The Calculator V1.0";
+            Text = "이제 복잡한 계산기";
             KeyDown += KeyDownCalc;
             ResumeLayout(false);
             PerformLayout();
@@ -410,5 +453,8 @@
         private TextBox InputAndResultTxt;
         private TextBox HistoryTxt;
         private ListBox HistoryListBox;
+        private Button ButtonMode;
+        private Button ButtonOpenParen;
+        private Button ButtonCloseParen;
     }
 }

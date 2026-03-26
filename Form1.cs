@@ -19,6 +19,7 @@ namespace SimpleCalculator
 
         // '=' 버튼을 눌러서 결과가 나와 있는 상태인지 확인하는 플래그
         bool isResultDisplayed = false;
+        bool isScientificMode = false; // 모드 전환
 
         public Form1()
         {
@@ -39,6 +40,19 @@ namespace SimpleCalculator
                 return Expression + " " + Result.ToString();
             }
         }
+
+        private void ButtonMode_Click(object sender, EventArgs e)
+        {
+            isScientificMode = !isScientificMode; // 모드 반전 (true <-> false)
+
+            // 버튼 텍스트 변경
+            ButtonMode.Text = isScientificMode ? "공학용 모드" : "표준 모드";
+
+            // 버그 방지를 위해 모든 기록과 화면을 초기화 (기존에 만든 C버튼 로직 활용)
+            ButtonClearAll_Click(sender, e);
+            HistoryListBox.Items.Clear(); // 우측 기록창도 비우기
+        }
+
         private void KeyDownCalc(object sender, KeyEventArgs e)
         {
             // 숫자 키 (상단 숫자키 & 우측 숫자 키패드)
@@ -68,90 +82,132 @@ namespace SimpleCalculator
         private void NumberButton_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            if (isResultDisplayed)
-            {
-                HistoryTxt.Clear();
-                rawInput = ""; // ★ 화면 대신 내부 데이터 비우기
-                num1 = 0; num2 = 0; currentOperator = "";
-                isResultDisplayed = false; isNewInput = true;
-            }
-            if (isNewInput)
-            {
-                rawInput = ""; // ★ 내부 데이터 비우기
-                isNewInput = false;
-            }
 
-            rawInput += btn.Text; // ★ 내부 데이터에 숫자 추가
-            InputAndResultTxt.Text = rawInput; // 화면에는 추가된 결과를 그대로 표시
+            if (isScientificMode)
+            {
+                // 공학용 모드: 수식 뒤에 숫자 이어 붙이기
+                if (isResultDisplayed)
+                {
+                    HistoryTxt.Clear();
+                    rawInput = "";
+                    isResultDisplayed = false;
+                }
+                rawInput += btn.Text;
+                InputAndResultTxt.Text = rawInput;
+            }
+            else
+            {
+                // 표준 모드 (기존 로직)
+                if (isResultDisplayed)
+                {
+                    HistoryTxt.Clear();
+                    rawInput = "";
+                    num1 = 0; num2 = 0; currentOperator = "";
+                    isResultDisplayed = false; isNewInput = true;
+                }
+                if (isNewInput)
+                {
+                    rawInput = "";
+                    isNewInput = false;
+                }
+
+                rawInput += btn.Text;
+                InputAndResultTxt.Text = rawInput;
+            }
         }
 
-        // 더하기(+) 버튼 클릭 이벤트
+        // --- [더하기 버튼] ---
         private void ButtonPlus_Click(object sender, EventArgs e)
         {
-            if (rawInput != "") // ★ 텍스트박스 대신 내부 데이터 확인
+            if (isScientificMode)
             {
-                num1 = decimal.Parse(rawInput);
-                currentOperator = "+";
-
-                // 위쪽 창에 표시할 때만 "g10" 적용
-                HistoryTxt.Text = num1.ToString("g10") + " + ";
-                isNewInput = true; isResultDisplayed = false;
+                rawInput += "+";
+                InputAndResultTxt.Text = rawInput;
+                isResultDisplayed = false;
+            }
+            else
+            {
+                if (rawInput != "")
+                {
+                    num1 = decimal.Parse(rawInput, System.Globalization.NumberStyles.Float);
+                    currentOperator = "+";
+                    HistoryTxt.Text = num1.ToString("g10") + " + ";
+                    isNewInput = true; isResultDisplayed = false;
+                }
             }
         }
 
-        // 빼기(−) 버튼 
+        // --- [빼기 버튼] ---
         private void ButtonMinus_Click(object sender, EventArgs e)
         {
-            if (rawInput != "") // 화면 텍스트가 아닌 실제 데이터를 확인
+            if (isScientificMode)
             {
-                num1 = decimal.Parse(rawInput);
-                currentOperator = "−";
-
-                // 화면에 보여줄 때만 "g10" 포맷 적용
-                HistoryTxt.Text = num1.ToString("g10") + " − ";
-
-                isNewInput = true;
+                rawInput += "−";
+                InputAndResultTxt.Text = rawInput;
                 isResultDisplayed = false;
+            }
+            else
+            {
+                if (rawInput != "")
+                {
+                    num1 = decimal.Parse(rawInput, System.Globalization.NumberStyles.Float);
+                    currentOperator = "−";
+                    HistoryTxt.Text = num1.ToString("g10") + " − ";
+                    isNewInput = true; isResultDisplayed = false;
+                }
             }
         }
 
-        // 곱하기(×) 버튼
+        // --- [곱하기 버튼] ---
         private void ButtonTimes_Click(object sender, EventArgs e)
         {
-            if (rawInput != "")
+            if (isScientificMode)
             {
-                num1 = decimal.Parse(rawInput);
-                currentOperator = "×";
-
-                HistoryTxt.Text = num1.ToString("g10") + " × ";
-
-                isNewInput = true;
+                rawInput += "×";
+                InputAndResultTxt.Text = rawInput;
                 isResultDisplayed = false;
+            }
+            else
+            {
+                if (rawInput != "")
+                {
+                    num1 = decimal.Parse(rawInput, System.Globalization.NumberStyles.Float);
+                    currentOperator = "×";
+                    HistoryTxt.Text = num1.ToString("g10") + " × ";
+                    isNewInput = true; isResultDisplayed = false;
+                }
             }
         }
 
-        // 나누기(÷) 버튼
+        // --- [나누기 버튼] ---
         private void ButtonObelus_Click(object sender, EventArgs e)
         {
-            if (rawInput != "")
+            if (isScientificMode)
             {
-                num1 = decimal.Parse(rawInput);
-                currentOperator = "÷";
-
-                HistoryTxt.Text = num1.ToString("g10") + " ÷ ";
-
-                isNewInput = true;
+                rawInput += "÷";
+                InputAndResultTxt.Text = rawInput;
                 isResultDisplayed = false;
+            }
+            else
+            {
+                if (rawInput != "")
+                {
+                    num1 = decimal.Parse(rawInput, System.Globalization.NumberStyles.Float);
+                    currentOperator = "÷";
+                    HistoryTxt.Text = num1.ToString("g10") + " ÷ ";
+                    isNewInput = true; isResultDisplayed = false;
+                }
             }
         }
 
-        // C (Clear All) 버튼 클릭 이벤트
+        // C 버튼 클릭 이벤트 (전체삭제)
         private void ButtonClearAll_Click(object sender, EventArgs e)
         {
             // 계산기의 모든 상태와 텍스트를 처음 상태로 되돌림
             num1 = 0;
             num2 = 0;
             currentOperator = "";
+            rawInput = ""; // ★ 누락되었던 내부 데이터 초기화 추가!
             InputAndResultTxt.Text = "";
             HistoryTxt.Text = "";
 
@@ -170,20 +226,21 @@ namespace SimpleCalculator
             }
 
             // 그렇지 않다면 현재 입력 중이던 피연산자 화면만 지움
+            rawInput = ""; // ★ 누락되었던 내부 데이터 초기화 추가!
             InputAndResultTxt.Text = "";
             isNewInput = true;
         }
 
-        // del (백스페이스) 버튼 클릭 이벤트
+        // --- [del (백스페이스) 버튼] ---
         private void ButtonDel_Click(object sender, EventArgs e)
         {
-            // 화면이 비어있거나, 계산 결과가 띄워져 있는 상태라면 지우기를 무시
-            if (InputAndResultTxt.Text == "" || isResultDisplayed) return;
+            if (rawInput == "" || isResultDisplayed) return;
 
-            // 현재 텍스트의 길이가 1 이상일 때, 맨 마지막 글자 하나를 잘라냄
-            if (InputAndResultTxt.Text.Length > 0)
+            if (rawInput.Length > 0)
             {
-                InputAndResultTxt.Text = InputAndResultTxt.Text.Substring(0, InputAndResultTxt.Text.Length - 1);
+                // 마지막 글자 하나 지우기 (두 모드 공통 적용 가능)
+                rawInput = rawInput.Substring(0, rawInput.Length - 1);
+                InputAndResultTxt.Text = rawInput;
             }
         }
 
@@ -192,99 +249,144 @@ namespace SimpleCalculator
         {
             if (rawInput != "" && rawInput != "0")
             {
-                decimal currentNum = decimal.Parse(rawInput); // ★ 에러 발생 안 함
+                decimal currentNum = decimal.Parse(rawInput); 
                 currentNum = currentNum * -1;
 
                 rawInput = currentNum.ToString(); // ★ 내부 데이터 업데이트 (포맷 없음)
                 InputAndResultTxt.Text = currentNum.ToString("g10"); // 화면에만 포맷 적용
             }
         }
+        // 공학모드에서만 연산버튼 먹힘
+        private void ButtonOpenParen_Click(object sender, EventArgs e)
+        {
+            if (isScientificMode) { rawInput += "("; InputAndResultTxt.Text = rawInput; }
+        }
+        private void ButtonCloseParen_Click(object sender, EventArgs e)
+        {
+            if (isScientificMode) { rawInput += ")"; InputAndResultTxt.Text = rawInput; }
+        }
 
-        // . (소수점) 버튼 클릭 이벤트
+        // 콤마 (소숫점)
         private void ButtonComma_Click(object sender, EventArgs e)
         {
-            // 1. 방금 계산이 끝났거나 새로 입력해야 하는 상태일 때 누르면 "0."으로 시작
-            if (isResultDisplayed || isNewInput || rawInput == "")
+            if (isScientificMode)
             {
-                if (isResultDisplayed)
-                {
-                    HistoryTxt.Clear();
-                    num1 = 0;
-                    num2 = 0;
-                    currentOperator = "";
-                    isResultDisplayed = false;
-                }
-
-                // ★ 핵심: 내부 데이터인 rawInput에 먼저 저장!
-                rawInput = "0.";
-                InputAndResultTxt.Text = rawInput;
-                isNewInput = false;
-            }
-            // 2. 입력 중인 숫자에 소수점이 아직 없는 경우에만 추가
-            else if (!rawInput.Contains("."))
-            {
-                // ★ 핵심: 내부 데이터인 rawInput에 소수점 추가!
+                if (isResultDisplayed) { rawInput = ""; isResultDisplayed = false; }
                 rawInput += ".";
-                InputAndResultTxt.Text = rawInput; // 화면 갱신
+                InputAndResultTxt.Text = rawInput;
+            }
+            else
+            {
+                if (isResultDisplayed || isNewInput || rawInput == "")
+                {
+                    if (isResultDisplayed)
+                    {
+                        HistoryTxt.Clear();
+                        num1 = 0; num2 = 0; currentOperator = "";
+                        isResultDisplayed = false;
+                    }
+                    rawInput = "0.";
+                    InputAndResultTxt.Text = rawInput;
+                    isNewInput = false;
+                }
+                else if (!rawInput.Contains("."))
+                {
+                    rawInput += ".";
+                    InputAndResultTxt.Text = rawInput;
+                }
             }
         }
 
-        // 결과(=) 버튼 클릭 이벤트
         private void ButtonResult_Click(object sender, EventArgs e)
         {
-            if (rawInput != "" && currentOperator != "")
+            if (isScientificMode)
             {
+                if (string.IsNullOrWhiteSpace(rawInput)) return;
+
                 try
                 {
-                    // ★ 앞서 추가했던 NumberStyles.Float 유지
-                    num2 = decimal.Parse(rawInput, System.Globalization.NumberStyles.Float);
-                    decimal result = 0;
+                    // 1. C# DataTable이 이해할 수 있는 기호로 변환
+                    string expression = rawInput.Replace("×", "*").Replace("÷", "/").Replace("−", "-");
 
-                    if (currentOperator == "+") result = num1 + num2;
-                    else if (currentOperator == "−") result = num1 - num2;
-                    else if (currentOperator == "×") result = num1 * num2;
-                    else if (currentOperator == "÷")
-                    {
-                        if (num2 == 0)
-                        {
-                            InputAndResultTxt.Text = "0으로 나눌 수 없습니다";
-                            HistoryTxt.Text = num1.ToString("g10") + " ÷ 0 =";
-                            isNewInput = true; isResultDisplayed = true; currentOperator = ""; rawInput = "";
-                            return;
-                        }
-                        result = num1 / num2;
-                    }
+                    // 2. 괄호와 우선순위를 포함한 전체 수식 자동 계산
+                    System.Data.DataTable table = new System.Data.DataTable();
+                    var result = table.Compute(expression, "");
 
-                    string currentExpression = num1.ToString("g10") + " " + currentOperator + " " + num2.ToString("g10") + " = ";
-                    HistoryTxt.Text = currentExpression;
+                    // 3. 결과 표시 및 데이터 업데이트
+                    decimal finalResult = Convert.ToDecimal(result);
+                    HistoryTxt.Text = rawInput + " = " + finalResult.ToString("g10");
 
-                    rawInput = result.ToString();
-                    InputAndResultTxt.Text = result.ToString("g10");
+                    rawInput = finalResult.ToString();
+                    InputAndResultTxt.Text = finalResult.ToString("g10");
 
+                    // 4. 리스트박스에 기록 저장
                     CalculationHistory historyItem = new CalculationHistory
                     {
-                        Num1 = num1,
-                        Num2 = num2,
-                        Operator = currentOperator,
-                        Result = result,
-                        Expression = currentExpression
+                        Expression = HistoryTxt.Text
                     };
                     HistoryListBox.Items.Add(historyItem);
 
-                    isNewInput = true;
                     isResultDisplayed = true;
-                    currentOperator = "";
                 }
-                catch (OverflowException)
+                catch (Exception)
                 {
-                    // ★ 숫자가 너무 커서 한계를 초과했을 때 프로그램이 튕기는 것을 막아줍니다!
-                    InputAndResultTxt.Text = "숫자 범위 초과";
-                    HistoryTxt.Text = "";
+                    // 괄호 개수가 안 맞거나 0으로 나누는 등 수식 오류 발생 시 튕김 방지
+                    InputAndResultTxt.Text = "수식 오류";
                     rawInput = "";
-                    num1 = 0; num2 = 0;
-                    isNewInput = true;
                     isResultDisplayed = true;
-                    currentOperator = "";
+                }
+            }
+            else
+            {
+                // --- [표준 모드 (기존 로직 유지)] ---
+                if (rawInput != "" && currentOperator != "")
+                {
+                    try
+                    {
+                        num2 = decimal.Parse(rawInput, System.Globalization.NumberStyles.Float);
+                        decimal result = 0;
+
+                        if (currentOperator == "+") result = num1 + num2;
+                        else if (currentOperator == "−") result = num1 - num2;
+                        else if (currentOperator == "×") result = num1 * num2;
+                        else if (currentOperator == "÷")
+                        {
+                            if (num2 == 0)
+                            {
+                                InputAndResultTxt.Text = "0으로 나눌 수 없습니다";
+                                HistoryTxt.Text = num1.ToString("g10") + " ÷ 0 =";
+                                isNewInput = true; isResultDisplayed = true; currentOperator = ""; rawInput = "";
+                                return;
+                            }
+                            result = num1 / num2;
+                        }
+
+                        string currentExpression = num1.ToString("g10") + " " + currentOperator + " " + num2.ToString("g10") + " = " + result.ToString("g10");
+                        HistoryTxt.Text = currentExpression;
+
+                        rawInput = result.ToString();
+                        InputAndResultTxt.Text = result.ToString("g10");
+
+                        CalculationHistory historyItem = new CalculationHistory
+                        {
+                            Expression = currentExpression
+                        };
+                        HistoryListBox.Items.Add(historyItem);
+
+                        isNewInput = true;
+                        isResultDisplayed = true;
+                        currentOperator = "";
+                    }
+                    catch (OverflowException)
+                    {
+                        InputAndResultTxt.Text = "숫자 범위 초과";
+                        HistoryTxt.Text = "";
+                        rawInput = "";
+                        num1 = 0; num2 = 0;
+                        isNewInput = true;
+                        isResultDisplayed = true;
+                        currentOperator = "";
+                    }
                 }
             }
         }
