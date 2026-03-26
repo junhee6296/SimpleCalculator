@@ -5,11 +5,14 @@
 - 사용한 플랫폼:
   - C#, .NET Windows Forms, Visual Studio, GitHub
 - 사용한 컨트롤:
-  - Label, TextBox, Button
+  - Label, TextBox, Button, Listbox
 - 사용한 기술과 구현한 기능:
   - Visual Studio를 이용하여 UI 디자인
-  - Parse를 통한 int(double) < - > string 변환
-  - 
+  - Parse를 통한 decimal(double) < - > string 변환
+  - catch(오류명)을 통한 버그 대응
+  - if 조건문을 통한 버그 대응 및 금지
+  - keydown 이벤트 활용을 통한 키보드 입력 대응
+  - public class를 활용한 기록 저장
 
 ## 실행 화면 (과제1)
 - 과제1 코드의 실행 스크린샷
