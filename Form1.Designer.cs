@@ -48,7 +48,7 @@
             ButtonDel = new Button();
             ButtonClearAll = new Button();
             ButtonClearEntry = new Button();
-            label1 = new Label();
+            HeadLabel = new Label();
             InputAndResultTxt = new TextBox();
             HistoryTxt = new TextBox();
             SuspendLayout();
@@ -273,15 +273,15 @@
             ButtonClearEntry.Text = "CE";
             ButtonClearEntry.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // HeadLabel
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("서울한강 장체 L", 24F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label1.Location = new Point(93, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(239, 38);
-            label1.TabIndex = 13;
-            label1.Text = "Simple Calculator";
+            HeadLabel.AutoSize = true;
+            HeadLabel.Font = new Font("서울한강 장체 L", 24F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            HeadLabel.Location = new Point(93, 9);
+            HeadLabel.Name = "HeadLabel";
+            HeadLabel.Size = new Size(239, 38);
+            HeadLabel.TabIndex = 13;
+            HeadLabel.Text = "Simple Calculator";
             // 
             // InputAndResultTxt
             // 
@@ -306,7 +306,7 @@
             ClientSize = new Size(425, 548);
             Controls.Add(HistoryTxt);
             Controls.Add(InputAndResultTxt);
-            Controls.Add(label1);
+            Controls.Add(HeadLabel);
             Controls.Add(ButtonObelus);
             Controls.Add(ButtonDel);
             Controls.Add(ButtonClearAll);
@@ -355,7 +355,7 @@
         private Button ButtonDel;
         private Button ButtonClearAll;
         private Button ButtonClearEntry;
-        private Label label1;
+        private Label HeadLabel;
         private TextBox InputAndResultTxt;
         private TextBox HistoryTxt;
     }
