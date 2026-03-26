@@ -51,6 +51,7 @@
             HeadLabel = new Label();
             InputAndResultTxt = new TextBox();
             HistoryTxt = new TextBox();
+            HistoryListBox = new ListBox();
             SuspendLayout();
             // 
             // NumberOne
@@ -163,6 +164,7 @@
             // 
             // ButtonPlus
             // 
+            ButtonPlus.BackColor = SystemColors.Info;
             ButtonPlus.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonPlus.ForeColor = SystemColors.ControlText;
             ButtonPlus.Location = new Point(327, 413);
@@ -170,11 +172,12 @@
             ButtonPlus.Size = new Size(90, 59);
             ButtonPlus.TabIndex = 2;
             ButtonPlus.Text = "+";
-            ButtonPlus.UseVisualStyleBackColor = true;
+            ButtonPlus.UseVisualStyleBackColor = false;
             ButtonPlus.Click += ButtonPlus_Click;
             // 
             // ButtonMinus
             // 
+            ButtonMinus.BackColor = SystemColors.Info;
             ButtonMinus.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonMinus.ForeColor = SystemColors.ControlText;
             ButtonMinus.Location = new Point(327, 339);
@@ -182,11 +185,12 @@
             ButtonMinus.Size = new Size(90, 59);
             ButtonMinus.TabIndex = 5;
             ButtonMinus.Text = "−";
-            ButtonMinus.UseVisualStyleBackColor = true;
+            ButtonMinus.UseVisualStyleBackColor = false;
             ButtonMinus.Click += ButtonMinus_Click;
             // 
             // ButtonTimes
             // 
+            ButtonTimes.BackColor = SystemColors.Info;
             ButtonTimes.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonTimes.ForeColor = SystemColors.ControlText;
             ButtonTimes.Location = new Point(327, 265);
@@ -194,11 +198,12 @@
             ButtonTimes.Size = new Size(90, 59);
             ButtonTimes.TabIndex = 8;
             ButtonTimes.Text = "×";
-            ButtonTimes.UseVisualStyleBackColor = true;
+            ButtonTimes.UseVisualStyleBackColor = false;
             ButtonTimes.Click += ButtonTimes_Click;
             // 
             // ButtonNegate
             // 
+            ButtonNegate.BackColor = SystemColors.HotTrack;
             ButtonNegate.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonNegate.ForeColor = SystemColors.ControlText;
             ButtonNegate.Location = new Point(7, 485);
@@ -206,7 +211,7 @@
             ButtonNegate.Size = new Size(90, 59);
             ButtonNegate.TabIndex = 0;
             ButtonNegate.Text = "+ / −";
-            ButtonNegate.UseVisualStyleBackColor = true;
+            ButtonNegate.UseVisualStyleBackColor = false;
             ButtonNegate.Click += ButtonNegate_Click;
             // 
             // NumberZero
@@ -223,6 +228,7 @@
             // 
             // ButtonComma
             // 
+            ButtonComma.BackColor = SystemColors.HotTrack;
             ButtonComma.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonComma.ForeColor = SystemColors.ControlText;
             ButtonComma.Location = new Point(221, 485);
@@ -230,11 +236,12 @@
             ButtonComma.Size = new Size(90, 59);
             ButtonComma.TabIndex = 2;
             ButtonComma.Text = ".";
-            ButtonComma.UseVisualStyleBackColor = true;
+            ButtonComma.UseVisualStyleBackColor = false;
             ButtonComma.Click += ButtonComma_Click;
             // 
             // ButtonResult
             // 
+            ButtonResult.BackColor = SystemColors.ActiveCaption;
             ButtonResult.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonResult.ForeColor = SystemColors.ControlText;
             ButtonResult.Location = new Point(327, 485);
@@ -242,11 +249,12 @@
             ButtonResult.Size = new Size(90, 59);
             ButtonResult.TabIndex = 2;
             ButtonResult.Text = "=";
-            ButtonResult.UseVisualStyleBackColor = true;
+            ButtonResult.UseVisualStyleBackColor = false;
             ButtonResult.Click += ButtonResult_Click;
             // 
             // ButtonObelus
             // 
+            ButtonObelus.BackColor = SystemColors.Info;
             ButtonObelus.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonObelus.ForeColor = SystemColors.ControlText;
             ButtonObelus.Location = new Point(327, 189);
@@ -254,11 +262,12 @@
             ButtonObelus.Size = new Size(90, 59);
             ButtonObelus.TabIndex = 11;
             ButtonObelus.Text = "÷";
-            ButtonObelus.UseVisualStyleBackColor = true;
+            ButtonObelus.UseVisualStyleBackColor = false;
             ButtonObelus.Click += ButtonObelus_Click;
             // 
             // ButtonDel
             // 
+            ButtonDel.BackColor = SystemColors.InactiveCaption;
             ButtonDel.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonDel.ForeColor = SystemColors.ControlText;
             ButtonDel.Location = new Point(221, 189);
@@ -266,11 +275,12 @@
             ButtonDel.Size = new Size(90, 59);
             ButtonDel.TabIndex = 12;
             ButtonDel.Text = "del";
-            ButtonDel.UseVisualStyleBackColor = true;
+            ButtonDel.UseVisualStyleBackColor = false;
             ButtonDel.Click += ButtonDel_Click;
             // 
             // ButtonClearAll
             // 
+            ButtonClearAll.BackColor = SystemColors.InactiveCaption;
             ButtonClearAll.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonClearAll.ForeColor = SystemColors.ControlText;
             ButtonClearAll.Location = new Point(114, 189);
@@ -278,11 +288,12 @@
             ButtonClearAll.Size = new Size(90, 59);
             ButtonClearAll.TabIndex = 10;
             ButtonClearAll.Text = "C";
-            ButtonClearAll.UseVisualStyleBackColor = true;
+            ButtonClearAll.UseVisualStyleBackColor = false;
             ButtonClearAll.Click += ButtonClearAll_Click;
             // 
             // ButtonClearEntry
             // 
+            ButtonClearEntry.BackColor = SystemColors.InactiveCaption;
             ButtonClearEntry.Font = new Font("Arial Narrow", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonClearEntry.ForeColor = SystemColors.ControlText;
             ButtonClearEntry.Location = new Point(7, 189);
@@ -290,7 +301,7 @@
             ButtonClearEntry.Size = new Size(90, 59);
             ButtonClearEntry.TabIndex = 9;
             ButtonClearEntry.Text = "CE";
-            ButtonClearEntry.UseVisualStyleBackColor = true;
+            ButtonClearEntry.UseVisualStyleBackColor = false;
             ButtonClearEntry.Click += ButtonClearEntry_Click;
             // 
             // HeadLabel
@@ -325,11 +336,22 @@
             HistoryTxt.TabStop = false;
             HistoryTxt.TextAlign = HorizontalAlignment.Right;
             // 
+            // HistoryListBox
+            // 
+            HistoryListBox.Font = new Font("서울남산 장체 L", 15.7499981F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            HistoryListBox.FormattingEnabled = true;
+            HistoryListBox.Location = new Point(425, 9);
+            HistoryListBox.Name = "HistoryListBox";
+            HistoryListBox.Size = new Size(298, 532);
+            HistoryListBox.TabIndex = 16;
+            HistoryListBox.SelectedIndexChanged += HistoryListBox_SelectedIndexChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(425, 548);
+            ClientSize = new Size(735, 548);
+            Controls.Add(HistoryListBox);
             Controls.Add(HistoryTxt);
             Controls.Add(InputAndResultTxt);
             Controls.Add(HeadLabel);
@@ -384,5 +406,6 @@
         private Label HeadLabel;
         private TextBox InputAndResultTxt;
         private TextBox HistoryTxt;
+        private ListBox HistoryListBox;
     }
 }

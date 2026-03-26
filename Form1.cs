@@ -22,6 +22,22 @@ namespace SimpleCalculator
             InitializeComponent();
         }
 
+        public class CalculationHistory
+        {
+            public double Num1 { get; set; }
+            public double Num2 { get; set; }
+            public string Operator { get; set; }
+            public double Result { get; set; }
+            public string Expression { get; set; } // "5 + 2 =" 형태의 수식
+
+            // ListBox에 항목이 추가될 때 화면에 보여질 문자열을 정의합니다.
+            public override string ToString()
+            {
+                // 윈도우 계산기처럼 위에는 수식, 아래는 결과가 나오게 줄바꿈(\r\n) 적용
+                return Expression + "\r\n" + Result.ToString("g10");
+            }
+        }
+
         // 숫자 버튼 클릭 이벤트 (0~9)
         private void NumberButton_Click(object sender, EventArgs e)
         {
@@ -221,10 +237,48 @@ namespace SimpleCalculator
                 // 결과를 메인 창에 표시 (최대 10자리 & e 표기법 적용)
                 InputAndResultTxt.Text = result.ToString("g10");
 
+                // 1. 문자열로 화면에 표시 (기존 코드)
+                string currentExpression = num1.ToString() + " " + currentOperator + " " + num2.ToString() + " = ";
+                HistoryTxt.Text = currentExpression;
+                InputAndResultTxt.Text = result.ToString("g10");
+
+                // ★ 2. 방금 완료된 계산의 모든 정보를 객체에 담아 ListBox에 보관!
+                CalculationHistory historyItem = new CalculationHistory
+                {
+                    Num1 = num1,
+                    Num2 = num2,
+                    Operator = currentOperator,
+                    Result = result,
+                    Expression = currentExpression
+                };
+
+                HistoryListBox.Items.Add(historyItem); //
+
                 isNewInput = true;
                 isResultDisplayed = true;
                 currentOperator = "";
             }
+        }
+
+        private void HistoryListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 클릭된 항목이 없다면 무시
+            if (HistoryListBox.SelectedItem == null) return;
+
+            // 선택된 항목을 CalculationHistory 객체로 다시 캐스팅하여 가져옵니다.
+            CalculationHistory selectedHistory = (CalculationHistory)HistoryListBox.SelectedItem;
+
+            // 데이터 롤백해서 num1 환경변수에 집어넣기
+            num1 = selectedHistory.Result; 
+
+            // 화면 표시 롤백
+            HistoryTxt.Text = selectedHistory.Expression;
+            InputAndResultTxt.Text = selectedHistory.Result.ToString("g10");
+
+            // 상태 플래그 초기화 (방금 계산이 끝난 직후의 상태로 세팅)
+            isResultDisplayed = true;
+            isNewInput = true;
+            currentOperator = "";
         }
     }
 }
