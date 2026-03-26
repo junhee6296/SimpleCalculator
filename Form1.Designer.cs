@@ -183,6 +183,7 @@
             ButtonMinus.TabIndex = 5;
             ButtonMinus.Text = "−";
             ButtonMinus.UseVisualStyleBackColor = true;
+            ButtonMinus.Click += ButtonMinus_Click;
             // 
             // ButtonTimes
             // 
@@ -194,6 +195,7 @@
             ButtonTimes.TabIndex = 8;
             ButtonTimes.Text = "×";
             ButtonTimes.UseVisualStyleBackColor = true;
+            ButtonTimes.Click += ButtonTimes_Click;
             // 
             // ButtonNegate
             // 
@@ -251,6 +253,7 @@
             ButtonObelus.TabIndex = 11;
             ButtonObelus.Text = "÷";
             ButtonObelus.UseVisualStyleBackColor = true;
+            ButtonObelus.Click += ButtonObelus_Click;
             // 
             // ButtonDel
             // 
