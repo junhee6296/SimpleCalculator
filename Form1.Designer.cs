@@ -63,6 +63,7 @@
             NumberOne.TabIndex = 0;
             NumberOne.Text = "1";
             NumberOne.UseVisualStyleBackColor = true;
+            NumberOne.Click += NumberButton_Click;
             // 
             // NumberTwo
             // 
@@ -74,6 +75,7 @@
             NumberTwo.TabIndex = 1;
             NumberTwo.Text = "2";
             NumberTwo.UseVisualStyleBackColor = true;
+            NumberTwo.Click += NumberButton_Click;
             // 
             // NumberThree
             // 
@@ -85,6 +87,7 @@
             NumberThree.TabIndex = 2;
             NumberThree.Text = "3";
             NumberThree.UseVisualStyleBackColor = true;
+            NumberThree.Click += NumberButton_Click;
             // 
             // NumberFour
             // 
@@ -96,6 +99,7 @@
             NumberFour.TabIndex = 3;
             NumberFour.Text = "4";
             NumberFour.UseVisualStyleBackColor = true;
+            NumberFour.Click += NumberButton_Click;
             // 
             // NumberFive
             // 
@@ -107,6 +111,7 @@
             NumberFive.TabIndex = 4;
             NumberFive.Text = "5";
             NumberFive.UseVisualStyleBackColor = true;
+            NumberFive.Click += NumberButton_Click;
             // 
             // NumberSix
             // 
@@ -118,6 +123,7 @@
             NumberSix.TabIndex = 5;
             NumberSix.Text = "6";
             NumberSix.UseVisualStyleBackColor = true;
+            NumberSix.Click += NumberButton_Click;
             // 
             // NumberSeven
             // 
@@ -129,6 +135,7 @@
             NumberSeven.TabIndex = 6;
             NumberSeven.Text = "7";
             NumberSeven.UseVisualStyleBackColor = true;
+            NumberSeven.Click += NumberButton_Click;
             // 
             // NumberEight
             // 
@@ -140,6 +147,7 @@
             NumberEight.TabIndex = 7;
             NumberEight.Text = "8";
             NumberEight.UseVisualStyleBackColor = true;
+            NumberEight.Click += NumberButton_Click;
             // 
             // NumberNine
             // 
@@ -151,6 +159,7 @@
             NumberNine.TabIndex = 8;
             NumberNine.Text = "9";
             NumberNine.UseVisualStyleBackColor = true;
+            NumberNine.Click += NumberButton_Click;
             // 
             // ButtonPlus
             // 
@@ -162,6 +171,7 @@
             ButtonPlus.TabIndex = 2;
             ButtonPlus.Text = "+";
             ButtonPlus.UseVisualStyleBackColor = true;
+            ButtonPlus.Click += ButtonPlus_Click;
             // 
             // ButtonMinus
             // 
@@ -206,6 +216,7 @@
             NumberZero.TabIndex = 1;
             NumberZero.Text = "0";
             NumberZero.UseVisualStyleBackColor = true;
+            NumberZero.Click += NumberButton_Click;
             // 
             // ButtonComma
             // 
@@ -228,6 +239,7 @@
             ButtonResult.TabIndex = 2;
             ButtonResult.Text = "=";
             ButtonResult.UseVisualStyleBackColor = true;
+            ButtonResult.Click += ButtonResult_Click;
             // 
             // ButtonObelus
             // 
