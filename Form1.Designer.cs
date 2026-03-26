@@ -49,8 +49,8 @@
             ButtonClearAll = new Button();
             ButtonClearEntry = new Button();
             label1 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            InputAndResultTxt = new TextBox();
+            HistoryTxt = new TextBox();
             SuspendLayout();
             // 
             // NumberOne
@@ -63,7 +63,6 @@
             NumberOne.TabIndex = 0;
             NumberOne.Text = "1";
             NumberOne.UseVisualStyleBackColor = true;
-            NumberOne.Click += button1_Click;
             // 
             // NumberTwo
             // 
@@ -185,7 +184,6 @@
             ButtonTimes.TabIndex = 8;
             ButtonTimes.Text = "×";
             ButtonTimes.UseVisualStyleBackColor = true;
-            ButtonTimes.Click += button3_Click;
             // 
             // ButtonNegate
             // 
@@ -197,7 +195,6 @@
             ButtonNegate.TabIndex = 0;
             ButtonNegate.Text = "+ / −";
             ButtonNegate.UseVisualStyleBackColor = true;
-            ButtonNegate.Click += button1_Click;
             // 
             // NumberZero
             // 
@@ -286,29 +283,29 @@
             label1.TabIndex = 13;
             label1.Text = "Simple Calculator";
             // 
-            // textBox1
+            // InputAndResultTxt
             // 
-            textBox1.Font = new Font("서울남산체 L", 24F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            textBox1.Location = new Point(31, 105);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(372, 45);
-            textBox1.TabIndex = 14;
+            InputAndResultTxt.Font = new Font("서울남산체 L", 24F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            InputAndResultTxt.Location = new Point(31, 113);
+            InputAndResultTxt.Name = "InputAndResultTxt";
+            InputAndResultTxt.Size = new Size(372, 45);
+            InputAndResultTxt.TabIndex = 14;
             // 
-            // textBox2
+            // HistoryTxt
             // 
-            textBox2.Font = new Font("맑은 고딕", 12F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            textBox2.Location = new Point(104, 70);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(299, 29);
-            textBox2.TabIndex = 15;
+            HistoryTxt.Font = new Font("맑은 고딕", 12F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            HistoryTxt.Location = new Point(104, 70);
+            HistoryTxt.Name = "HistoryTxt";
+            HistoryTxt.Size = new Size(299, 29);
+            HistoryTxt.TabIndex = 15;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(425, 548);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(HistoryTxt);
+            Controls.Add(InputAndResultTxt);
             Controls.Add(label1);
             Controls.Add(ButtonObelus);
             Controls.Add(ButtonDel);
@@ -359,7 +356,7 @@
         private Button ButtonClearAll;
         private Button ButtonClearEntry;
         private Label label1;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox InputAndResultTxt;
+        private TextBox HistoryTxt;
     }
 }
